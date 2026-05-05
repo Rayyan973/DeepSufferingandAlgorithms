@@ -20,6 +20,20 @@ vector<int> insertionSort(vector<int> nums) {
     return nums;
 }
 
+void recursiveInsertionSort(vector<int>& arr, int n) {
+    if(n <= 1) return;
+
+    recursiveInsertionSort(arr, n-1);
+
+    int last = arr[n-1];
+    int j = n-2;
+    while(j>=0 && arr[j] > last) {
+        arr[j+1] = arr[j];
+        j--;
+    }
+    arr[j+1] = last;
+}
+
 int main() {
     vector<int> arr = {3, 6, 1, 2, 0, 7, 9, 5};
     int n = arr.size();
@@ -32,11 +46,13 @@ int main() {
     }
     cout<<"\n";
 
-    vector<int> ans = insertionSort(arr);
+    // vector<int> ans = insertionSort(arr);
+
+    recursiveInsertionSort(arr, n);
 
     cout<<"After insertion sort: "<<"\n";
     for (int i = 0; i < n; i++) {
-        cout<<ans[i]<<" ";
+        cout<<arr[i]<<" ";
     }
     cout<<"\n";
 

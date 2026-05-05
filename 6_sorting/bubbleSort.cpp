@@ -36,6 +36,17 @@ void bubbleSortOptimal(vector<int> arr) {
 
 }
 
+void recursiveBubbleSort(vector<int>& arr, int n) {
+    if(n==1) return;
+
+    for(int i=0; i<n-1; i++) {
+        if(arr[i] > arr[i+1]) {
+            swap(arr[i], arr[i+1]);
+        }
+    }
+    recursiveBubbleSort(arr, n-1);
+}
+
 
 int main() {
     vector<int> arr = {3, 6, 1, 2, 0, 7, 9, 5};
@@ -49,7 +60,13 @@ int main() {
     }
     cout<<"\n";
 
-    bubbleSortOptimal(arr);
+    recursiveBubbleSort(arr, n);
+
+    cout<<"After bubble sort: "<<"\n";
+    for (int i = 0; i < n; i++) {
+        cout<<arr[i]<<" ";
+    }
+    cout<<"\n";
 
     return 0;
 }
