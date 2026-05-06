@@ -2,50 +2,48 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void merge(vector<int>& arr, int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+void merge(vector<int>& arr, int low, int mid, int high) {
+    vector<int> temp;
 
-    vector<int> L(n1), R(n2);
+    int left = low, right = mid+1;
 
-    for(int i=0; i<n1; i++) {
-        L[i] = arr[left+i];
-    }
-    for(int j=0; j<n2; j++) {
-        R[j] = arr[mid+1+j];
-    }
-
-    int i=0, j=0;
-    int k = left;
-
-    while(i<n1 && j<n2) {
-        if(L[i] <= R[j]) {
-            arr[k++] = L[i++];
+    while(left <= mid && right <= high) {
+        if(arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
         }
         else {
-            arr[k++] = R[j++];
+            temp.push_back(arr[right]);
+            right++;
         }
     }
+    while(left <= mid) {
+        temp.push_back(arr[left]);
+            left++;
+    }
+    while(right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
 
-    while(i<n1) {
-        arr[k++] = L[i++];
+    for(int i=low; i<=high; i++) {
+        arr[i] = temp[i-low];
     }
-    while(i<n2) {
-        arr[k++] = R[j++];
-    }
+
+    return;
 }
 
 //actual function that does the merging
-vector<int> mergeSort(vector<int>& arr, int left, int right) {
-    if(left >= right) return arr;
+void mergeSort(vector<int>& arr, int low, int high) {
+    if(low >= high) return;
 
-    int mid = left + (right-left)/2;
+    int mid = low + (high-low)/2;
 
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid+1, right);
-    merge(arr, left, mid, right);
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid+1, high);
+    merge(arr, low, mid, high);
 
-    return arr;
+    return;
 }
 
 int main() {
@@ -60,11 +58,11 @@ int main() {
     }
     cout<<"\n";
 
-    vector<int> ans = mergeSort(arr, 0, n-1);
+    mergeSort(arr, 0, n-1);
 
     cout<<"After merge sort: "<<"\n";
     for (int i = 0; i < n; i++) {
-        cout<<ans[i]<<" ";
+        cout<<arr[i]<<" ";
     }
     cout<<"\n";
 
