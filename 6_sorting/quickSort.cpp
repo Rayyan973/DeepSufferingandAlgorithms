@@ -20,6 +20,23 @@ int partitionLow(vector<int>& arr, int low, int high) {
     return j;
 }
 
+//high pivot (standard)
+int partitionHigh(vector<int>& arr, int low, int high) {
+    int pivot = arr[high];
+    int i = low-1;
+
+    for(int j=low; j<high; j++) {
+        if(arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    swap(arr[i+1], arr[high]);
+
+    return i+1;
+}
+
 void quickSortLow(vector<int>& arr, int low, int high) {
     if(low < high) {
         int pIdx = partitionLow(arr, low, high);
@@ -28,19 +45,14 @@ void quickSortLow(vector<int>& arr, int low, int high) {
     }
 }
 
-
-//high pivot (standard)
-int partitionHigh(vector<int>& arr, int low, int high) {
-
-}
-
 void quickSortHigh(vector<int>& arr, int low, int high) {
     if(low < high) {
-        int pIdx = partitionLow(arr, low, high);
+        int pIdx = partitionHigh(arr, low, high);
         quickSortLow(arr, low, pIdx-1);
         quickSortLow(arr, pIdx+1, high);
     }
 }
+
 
 
 int main() {
@@ -56,7 +68,7 @@ int main() {
     }
     cout<<"\n";
 
-    quickSortLow(arr, 0, n-1);
+    quickSortHigh(arr, 0, n-1);
 
     cout<<"After merge sort: "<<"\n";
     for (int i = 0; i < n; i++) {
